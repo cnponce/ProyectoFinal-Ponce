@@ -1,122 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilos.css" />
     <title>Popcorn</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="containerLogos">
-            <div class="imgLogo">
-                <img src=".//img pelis/logo/popcorn.jpg" alt="logo que contiene la palabra popcorn">
-            </div>
-            <div class="namePag">
-                <img src=".//img pelis/logo/popcorn2.jpg" alt="imagen de un hombre sosteniendo una claqueta con el logo de popcorn">
-            </div>
+      <div class="containerLogos">
+        <div class="imgLogo">
+          <img
+            src=".//img pelis/logo/popcorn.jpg"
+            alt="logo que contiene la palabra popcorn"
+          />
         </div>
+        <div class="namePag">
+          <img
+            src=".//img pelis/logo/popcorn2.jpg"
+            alt="imagen de un hombre sosteniendo una claqueta con el logo de popcorn"
+          />
+        </div>
+      </div>
+      <nav>
+        <button id="shop">
+          <img class="carrito" src="./img pelis/carrito.png" alt="carrito" />
+        </button>
+      </nav>
     </header>
     <section>
-        <div class="seleccion">
-            <form action="">
-                <h1>Seleccioná tu película</h1>
-                <label for="">Nombre</label>
-                <input type="text" placeholder="Nombre de la película"/>
-                <label for="">Género</label>
-                <input type="text" placeholder="Elegí un género"/>
-                <label for="">Año</label>
-                <input type="text" placeholder="Año de la película"/>
-            </form>
-        </div>
-        <div class="listaPeli">
-            <div>
-                <h2>Pinocchio</h2>
-                <h3>2022 ‧ Fantasía/Infantil ‧ 1h 45m
-                </h3>
-                <h4>En Italia, el deseo de un hombre le da vida mágicamente a un muñeco de madera.</h4>
-                <img class="imgPelis" src="./img pelis/pinocho.jfif" alt="imagen de pinocho con su creador">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Argentina, 1985</h2>
-                <h3>2022 ‧ Drama ‧ 2h 20m
-                </h3>
-                <h4>Durante la década de 1980, un grupo de abogados investiga y lleva a juicio a los responsables de la dictadura cívico-militar argentina.</h4>
-                <img class="imgPelis" src="./img pelis/argentina1985.jfif" alt="">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Avatar 2</h2>
-                <h3>2022 ‧ Ciencia ficción ‧ 3h 12m
-                </h3>
-                <h4>Jake Sully y Ney'tiri han formado una familia y hacen todo lo posible por permanecer juntos. Sin embargo, deben abandonar su hogar y explorar las regiones de Pandora cuando una antigua amenaza reaparece.</h4>
-                <img class="imgPelis" src="./img pelis/avatar2.jfif" alt="portada de la pelicula avatar">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Devotion</h2>
-                <h3>2022 ‧ Acción ‧ 2h 19m
-                </h3>
-                <h4>Devotion es una película biográfica de guerra estadounidense de 2022 basada en el libro de 2015 Devotion: An Epic Story of Heroism, Friendship, and Sacrifice de Adam Makos, que vuelve a contar la camaradería entre los oficiales navales Jesse Brown y Tom Hudner durante la Guerra de Corea.</h4>
-                <img class="imgPelis" src="./img pelis/devotion.jfif" alt="Los dos protagonistas hombres en la portada y una avioneta">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Focus</h2>
-                <h3>2015 ‧ Romance/Crimen ‧ 1h 44m</h3>
-                <h4>Un estafador veterano apoya a una joven y atractiva mujer, pero las cosas se complican cuando ellos se involucran románticamente.</h4>
-                <img class="imgPelis" src="./img pelis/focus.jfif" alt="Dos protagonistas en la portada">
-                <div class="price">$150</div>
-            </div>
-
-            <div>
-                <h2>My Policeman</h2>
-                <h3>2022 ‧ Drama ‧ 1h 53m
-                </h3>
-                <h4>Tom, un policía en la década de 1950 en Gran Bretaña, se enamora de un maestro de escuela en la costa de Brighton. Sin embargo, pronto comienza una apasionada aventura entre personas del mismo sexo con el curador de un museo.</h4>
-                <img class="imgPelis" src="./img pelis/mypoliceman.jfif" alt="actor con traje de policia">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Smile</h2>
-                <h3>2022 ‧ Terror ‧ 1h 55m
-                </h3>
-                <h4>Tras presencia el dramático incidente sufrido por un paciente, la Dra. Cotter empieza a experimentar hechos aterradores sin explicación aparente. A medida que el horror se adueña de su vida, comprende que la respuesta está en su propio pasado.</h4>
-                <img class="imgPelis" src="./img pelis/smile.jfif" alt="portada con una chica sonriendo">
-                <div class="price">$300</div>
-            </div>
-
-            <div>
-                <h2>Taxi Driver</h2>
-                <h3>1976 ‧ Drama ‧ 1h 54m
-                </h3>
-                <h4>Un veterano de Vietnam inicia una confrontación violenta con los proxenetas que trabajan en las calles de Nueva York.</h4>
-                <img class="imgPelis" src="./img pelis/taxidriver.jfif" alt="el protagonista con un taxi">
-                <div class="price">$100</div>
-            </div>
-
-            <div>
-                <h2>Troll</h2>
-                <h3>2022 ‧ Fantasía ‧ 1h 41m
-                </h3>
-                <h4>Cuando un antiguo trol se despierta en una montaña noruega, un grupo de héroes debe reunirse para intentar evitar que cause estragos mortales.</h4>
-                <img class="imgPelis" src="./img pelis/troll.jfif" alt="la cara de un troll">
-                <div class="price">$300</div>
-            </div>   
-    
-        </div>
+      <div class="seleccion">
+        <form id="formulario">
+          <h1>Seleccioná tu película</h1>
+          <label for="name">Nombre</label>
+          <input id="name" type="text" placeholder="Nombre de la película" />
+          <label for="genre">Género</label>
+          <input id="genre" type="text" placeholder="Elegí un género" />
+          <label for="year">Año</label>
+          <input
+            id="year"
+            type="number"
+            min="0"
+            placeholder="Año de la película"
+          />
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+      <div class="listaPeli"></div>
     </section>
 
     <footer></footer>
 
-
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
