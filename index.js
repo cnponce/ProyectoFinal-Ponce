@@ -1,275 +1,236 @@
-const listadoDePelis = [
-  {
-    id: 1,
-    nombre: "Pinocchio",
-    genero: "Fantasía/Infantil",
-    anio: 2022,
-    descripcion:
-      "En Italia, el deseo de un hombre le da vida mágicamente a un muñeco de madera.",
-    oferta: true,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/pinocho.jfif",
-      alt: "imagen de pinocho con su creador",
-    },
-  },
+const seccionDePelis = document.querySelector(".listaPeli");
+const verCarritoBoton = document.querySelector("#shop");
+const form = document.querySelector("#formulario");
+let listadoDePelis = [];
+let toggleCarritoMenu = true;
 
-  {
-    id: 2,
-    nombre: "Argentina, 1985",
-    genero: "Drama",
-    anio: 2022,
-    descripcion:
-      "Durante la década de 1980, un grupo de abogados investiga y lleva a juicio a los responsables de la dictadura cívico-militar argentina.",
-    oferta: false,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/argentina1985.jfif",
-      alt: "portada de la pelicula donde se ven a los dos protaginostas debatiendo en la corte",
-    },
-  },
+obtenerPeliculas();
 
-  {
-    id: 3,
-    nombre: "Avatar 2",
-    genero: "Ciencia ficción",
-    anio: 2022,
-    descripcion:
-      "Jake Sully y Ney'tiri han formado una familia y hacen todo lo posible por permanecer juntos. Sin embargo, deben abandonar su hogar y explorar las regiones de Pandora cuando una antigua amenaza reaparece.",
-    oferta: false,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/avatar2.jfif",
-      alt: "portada de Avatar con sus personajes azules",
-    },
-  },
+verCarritoBoton.addEventListener("click", (event) => verCarrito(event, true));
+form.addEventListener("submit", searchPelis);
 
-  {
-    id: 4,
-    nombre: "Devotion",
-    genero: "Acción",
-    anio: 2022,
-    descripcion:
-      "Devotion es una película biográfica de guerra estadounidense de 2022 basada en el libro de 2015 Devotion: An Epic Story of Heroism, Friendship, and Sacrifice de Adam Makos, que vuelve a contar la camaradería entre los oficiales navales Jesse Brown y Tom Hudner durante la Guerra de Corea.",
-    oferta: false,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/devotion.jfif",
-      alt: "se ven a los dos protagonistas de amarillo con un avión de guerra ",
-    },
-  },
+function obtenerPeliculas() {
+  fetch("pelis.json", { mode: "no-cors" })
+    .then((response) => response.json())
+    .then((pelis) => {
+      listadoDePelis = pelis;
+      mostrarPeliculas(pelis);
+    })
+    .catch((error) => console.log(`Ocurrió un error: ${error}`));
+}
 
-  {
-    id: 5,
-    nombre: "Focus",
-    genero: "Romance/Crimen",
-    anio: 2015,
-    descripcion:
-      "Un estafador veterano apoya a una joven y atractiva mujer, pero las cosas se complican cuando ellos se involucran románticamente.",
-    oferta: false,
-    precio: 150,
-    imagen: {
-      src: "./img pelis/focus.jfif",
-      alt: "en la portada se ven a sus dos protagonistas, Margot Robbie abrazanda a Will Smith",
-    },
-  },
+function mostrarPeliculas(pelis, seccion) {
+  if (seccion) {
+    seccion.innerHTML = "";
 
-  {
-    id: 6,
-    nombre: "My Policeman",
-    genero: "Drama",
-    anio: 2022,
-    descripcion:
-      "Tom, un policía en la década de 1950 en Gran Bretaña, se enamora de un maestro de escuela en la costa de Brighton. Sin embargo, pronto comienza una apasionada aventura entre personas del mismo sexo con el curador de un museo.",
-    oferta: true,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/mypoliceman.jfif",
-      alt: "Se ve al protagonist con el traje de oficial con las manos en los bolsillos del pantalón mirando el piso",
-    },
-  },
+    const totalText = document.createElement("p");
+    const total = calcularTotal();
+    totalText.innerText = `Monto total: ${total}`;
 
-  {
-    id: 7,
-    nombre: "Smile",
-    genero: "Terror",
-    anio: 2022,
-    descripcion:
-      "Tras presencia el dramático incidente sufrido por un paciente, la Dra. Cotter empieza a experimentar hechos aterradores sin explicación aparente. A medida que el horror se adueña de su vida, comprende que la respuesta está en su propio pasado.",
-    oferta: true,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/smile.jfif",
-      alt: "Se ve un cadaver sonriendo desde dentro de la bolsa funeraria",
-    },
-  },
+    const botonComprar = document.createElement("button");
+    botonComprar.innerText = "Comprar";
 
-  {
-    id: 8,
-    nombre: "Taxi Driver",
-    genero: "Drama",
-    anio: 1976,
-    descripcion:
-      "Un veterano de Vietnam inicia una confrontación violenta con los proxenetas que trabajan en las calles de Nueva York.",
-    oferta: false,
-    precio: 100,
-    imagen: {
-      src: "./img pelis/taxidriver.jfif",
-      alt: "Se ve al protagonista Robert De Niro en la calle con un taxi amarillo detras de él",
-    },
-  },
+    botonComprar.addEventListener("click", comprar);
 
-  {
-    id: 9,
-    nombre: "Troll",
-    genero: "Fantasía",
-    anio: 2022,
-    descripcion:
-      "Cuando un antiguo trol se despierta en una montaña noruega, un grupo de héroes debe reunirse para intentar evitar que cause estragos mortales.",
-    oferta: true,
-    precio: 300,
-    imagen: {
-      src: "./img pelis/troll.jfif",
-      alt: "Portada con la cara del trol enojado",
-    },
-  },
-];
+    const seccionCompra = document.createElement("div");
 
-function enOferta() {
-  listadoDePelis.forEach((peli) => {
-    if (peli.oferta) {
-      peli.precio = peli.precio - (peli.precio * 10) / 100;
+    seccionCompra.appendChild(totalText);
+    seccionCompra.appendChild(botonComprar);
+    seccion.appendChild(seccionCompra);
+  }
+
+  pelis.forEach((peli) => {
+    if (seccion) {
+      mostrarPelicula(peli, seccion);
+    } else {
+      mostrarPelicula(peli);
     }
   });
 }
-//enOferta();
-
-function orden() {
-  const ordenId = prompt("¿Desea ordenar por ID? Elija SI o NO", "NO");
-  let criterio = "";
-  if (ordenId === "SI") {
-    criterio = "id";
-  } else {
-    criterio = "nombre";
-  }
-
-  const arrayOrdenado = [...listadoDePelis].sort((peliA, peliB) => {
-    if (peliA[criterio] > peliB[criterio]) {
-      return 1;
-    }
-    if (peliA[criterio] < peliB[criterio]) {
-      return -1;
-    }
-    return 0;
-  });
-  return arrayOrdenado;
-}
-//orden();
-
-function filtrarOferta() {
-  const filtrar = confirm("¿Quiere ver las películas en oferta?");
-  if (filtrar) {
-    const pelisEnOferta = listadoDePelis.filter((peli) => peli.oferta);
-    console.log(pelisEnOferta);
-  }
-}
-//filtrarOferta();
-
-function buscarPeli() {
-  const peliIngresada = prompt("Ingresa una película");
-
-  if (peliIngresada !== null) {
-    const peliEncontrada = listadoDePelis.find(
-      (peli) => peli.nombre === peliIngresada
-    );
-
-    if (peliEncontrada) {
-      alert(`TENEMOS ${peliEncontrada.nombre} EN STOCK!`);
-      return;
-    }
-    alert("NO TENEMOS ESA PELÍCULA EN STOCK");
-  }
-}
-//buscarPeli();
 
 function mostrarPelicula(peli, seccion) {
-  const card = document.createElement("div");
+  const { nombre, anio, genero, descripcion, precio, imagen, id } = peli;
+
   const titulo1 = document.createElement("h2");
-  const seccionListadoDePeli = document.querySelector(".listaPeli");
-  titulo1.innerText = peli.nombre;
+  titulo1.innerText = nombre;
+
   const titulo2 = document.createElement("h3");
-  titulo2.innerText = `${peli.anio} ‧ ${peli.genero}`;
+  titulo2.innerText = `${anio} ‧ ${genero}`;
+
   const titulo3 = document.createElement("h4");
-  titulo3.innerText = peli.descripcion;
+  titulo3.innerText = descripcion;
+
   const imagenPeli = document.createElement("img");
-  imagenPeli.setAttribute("src", peli.imagen?.src || "");
-  imagenPeli.setAttribute("alt", peli.imagen?.alt || "");
+  imagenPeli.setAttribute("src", imagen?.src || "");
+  imagenPeli.setAttribute("alt", imagen?.alt || "");
+
   const valor = document.createElement("h5");
-  valor.innerText = `$ ${peli.precio}`;
-  const agregarCarrito = document.createElement("button");
-  agregarCarrito.innerText = "Agregar al carrito";
+  valor.innerText = `$ ${precio}`;
 
-  agregarCarrito.addEventListener("click", (event) => {
-    const carritoAJson = localStorage.getItem("carrito");
-    if (carritoAJson === null) {
-      localStorage.setItem("carrito", JSON.stringify([peli]));
-      return;
-    }
-    const carrito = JSON.parse(carritoAJson);
-    console.log(peli.nombre, carrito);
-    const peliYaEnCarrito = carrito.find(
-      (peliEnCarrito) => peli.nombre === peliEnCarrito.nombre
-    );
-    if (peliYaEnCarrito === undefined) {
-      localStorage.setItem("carrito", JSON.stringify([...carrito, peli]));
-    }
-  });
+  const card = document.createElement("div");
+  card.setAttribute("class", "card");
 
-  card.appendChild(titulo1);
-  card.appendChild(titulo2);
-  card.appendChild(imagenPeli);
-  card.appendChild(valor);
   if (seccion) {
+    const info = document.createElement("div");
+    const quitarPeliBoton = document.createElement("button");
+    quitarPeliBoton.innerText = "Quitar película";
+
+    quitarPeliBoton.addEventListener("click", (event) =>
+      quitarPeliDelCarrito(event, id)
+    );
+
+    info.appendChild(titulo1);
+    info.appendChild(titulo2);
+    info.appendChild(valor);
+    info.appendChild(quitarPeliBoton);
+
+    card.appendChild(imagenPeli);
+    card.appendChild(info);
+
     seccion.appendChild(card);
   } else {
+    const agregarCarrito = document.createElement("button");
+    agregarCarrito.innerText = "Agregar al carrito";
+
+    agregarCarrito.addEventListener("click", (event) =>
+      agregarAlCarrito(event, peli)
+    );
+
+    card.appendChild(titulo1);
+    card.appendChild(titulo2);
+    card.appendChild(imagenPeli);
+    card.appendChild(valor);
+
     card.appendChild(titulo3);
     card.appendChild(agregarCarrito);
-    seccionListadoDePeli.appendChild(card);
+    seccionDePelis.appendChild(card);
   }
 }
 
-const verCarrito = document.querySelector("#shop");
-verCarrito.addEventListener("click", (event) => {
+function agregarAlCarrito(event, peli) {
   const carritoAJson = localStorage.getItem("carrito");
-  const tusPelis = document.querySelector("#tusPelis");
-  if (tusPelis) {
-    tusPelis.remove();
+
+  if (carritoAJson === null) {
+    localStorage.setItem("carrito", JSON.stringify([peli]));
     return;
   }
+
+  const carrito = JSON.parse(carritoAJson);
+
+  const peliYaEnCarrito = carrito.find(
+    (peliEnCarrito) => peli.nombre === peliEnCarrito.nombre
+  );
+
+  if (peliYaEnCarrito === undefined) {
+    localStorage.setItem("carrito", JSON.stringify([...carrito, peli]));
+  } else {
+    swal({
+      title: "Ya agregaste esa película al carrito",
+      icon: "error",
+    });
+  }
+
+  verCarrito(null, false);
+}
+
+function verCarrito(event, conToggle = true) {
+  const carritoAJson = localStorage.getItem("carrito");
+
+  if (carritoAJson === null) {
+    swal({
+      title: "El carrito está vacío",
+      icon: "error",
+    });
+    return;
+  }
+
+  const tusPelis = document.querySelector("#tusPelis");
+
+  if (conToggle) {
+    toggleCarritoMenu = !toggleCarritoMenu;
+    if (toggleCarritoMenu) {
+      tusPelis.remove();
+      return;
+    }
+  }
+
   const shop = document.createElement("div");
   shop.id = "tusPelis";
-  if (carritoAJson === null) {
-    shop.innerText = "El carrito está vacío";
+  let seccion = tusPelis || shop;
+
+  const carrito = JSON.parse(carritoAJson);
+
+  mostrarPeliculas(carrito, seccion);
+
+  verCarritoBoton.parentNode.appendChild(seccion);
+}
+
+function quitarPeliDelCarrito(event, peliId) {
+  const tusPelisSeccion = document.querySelector("#tusPelis");
+
+  const carritoAJson = localStorage.getItem("carrito");
+  const carrito = JSON.parse(carritoAJson);
+
+  const pelisFiltradas = carrito.filter(
+    (peliEnCarrito) => peliEnCarrito.id !== peliId
+  );
+
+  if (!pelisFiltradas.length) {
+    localStorage.removeItem("carrito");
+    tusPelisSeccion.remove();
+
+    swal({
+      title: "Vaciaste tu carrito",
+      icon: "success",
+    });
+
     return;
   }
-  shop.innerText = "Tu carrito";
-  const carrito = JSON.parse(carritoAJson);
-  carrito.forEach((peli) => {
-    mostrarPelicula(peli, shop);
+
+  localStorage.setItem("carrito", JSON.stringify(pelisFiltradas));
+
+  mostrarPeliculas(pelisFiltradas, tusPelisSeccion);
+
+  swal({
+    title: "Quitaste exitosamente la peli del carrito",
+    icon: "success",
   });
-  verCarrito.parentNode.appendChild(shop);
-});
+}
 
-listadoDePelis.forEach((peli) => {
-  mostrarPelicula(peli);
-});
+function calcularTotal() {
+  const carritoAJson = localStorage.getItem("carrito");
+  const carrito = JSON.parse(carritoAJson);
+  let totalCompra = 0;
 
-const form = document.querySelector("#formulario");
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
+  carrito.forEach((peli) => {
+    totalCompra += peli.precio;
+  });
+
+  return totalCompra;
+}
+
+function comprar() {
+  const total = calcularTotal();
+
+  swal({
+    title: "Compra exitosa!",
+    text: `Monto: $${total}. Disfrutá de tus películas`,
+    icon: "success",
+  });
+
+  localStorage.removeItem("carrito");
+  const tusPelisSeccion = document.querySelector("#tusPelis");
+  tusPelisSeccion?.remove();
+}
+
+function searchPelis({ preventDefault }) {
+  preventDefault();
+  seccionDePelis.innerHTML = "";
+
   const inputName = document.querySelector("#name");
   const inputGenre = document.querySelector("#genre");
   const inputYear = document.querySelector("#year");
+
   const pelisBuscadas = listadoDePelis.filter(
     (peli) =>
       peli.nombre.toLowerCase().includes(inputName.value.toLowerCase()) &&
@@ -279,28 +240,75 @@ form.addEventListener("submit", (event) => {
       peli.anio.toString().includes(inputYear.value)
   );
 
-  console.log(pelisBuscadas);
-  const seccion = document.querySelector(".listaPeli");
-  seccion.innerHTML = "";
   if (!pelisBuscadas.length) {
-    const card = document.createElement("div");
-    const mensaje = document.createElement("h2");
-    const reset = document.createElement("button");
-    reset.addEventListener("click", (event) => {
-      seccion.innerHTML = "";
-      listadoDePelis.forEach((peli) => {
-        mostrarPelicula(peli);
-      });
+    swal({
+      title: "No tenemos esa película",
+      icon: "warning",
+      button: false,
     });
-    mensaje.innerText = "No tenemos esa película";
-    reset.innerText = "Mostrar todas las películas";
 
-    card.appendChild(mensaje);
-    card.appendChild(reset);
-    seccion.appendChild(card);
+    setTimeout(() => {
+      swal.close();
+      mostrarPeliculas(listadoDePelis);
+    }, 2000);
   } else {
-    pelisBuscadas.forEach((peli) => {
-      mostrarPelicula(peli);
-    });
+    mostrarPeliculas(pelisBuscadas);
   }
-});
+}
+
+// function enOferta() {
+//   listadoDePelis.forEach((peli) => {
+//     if (peli.oferta) {
+//       peli.precio = peli.precio - (peli.precio * 10) / 100;
+//     }
+//   });
+// }
+//enOferta();
+
+// function orden() {
+//   const ordenId = prompt("¿Desea ordenar por ID? Elija SI o NO", "NO");
+//   let criterio = "";
+//   if (ordenId === "SI") {
+//     criterio = "id";
+//   } else {
+//     criterio = "nombre";
+//   }
+
+//   const arrayOrdenado = [...listadoDePelis].sort((peliA, peliB) => {
+//     if (peliA[criterio] > peliB[criterio]) {
+//       return 1;
+//     }
+//     if (peliA[criterio] < peliB[criterio]) {
+//       return -1;
+//     }
+//     return 0;
+//   });
+//   return arrayOrdenado;
+// }
+//orden();
+
+// function filtrarOferta() {
+//   const filtrar = confirm("¿Quiere ver las películas en oferta?");
+//   if (filtrar) {
+//     const pelisEnOferta = listadoDePelis.filter((peli) => peli.oferta);
+//     console.log(pelisEnOferta);
+//   }
+// }
+//filtrarOferta();
+
+// function buscarPeli() {
+//   const peliIngresada = prompt("Ingresa una película");
+
+//   if (peliIngresada !== null) {
+//     const peliEncontrada = listadoDePelis.find(
+//       (peli) => peli.nombre === peliIngresada
+//     );
+
+//     if (peliEncontrada) {
+//       alert(`TENEMOS ${peliEncontrada.nombre} EN STOCK!`);
+//       return;
+//     }
+//     alert("NO TENEMOS ESA PELÍCULA EN STOCK");
+//   }
+// }
+//buscarPeli();
